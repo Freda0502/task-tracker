@@ -73,41 +73,64 @@ const App = () => {
   }
 
   // Fetch Task
-  const fetchTask = (id) => {
-    // const res = await fetch(`http://localhost:5000/api/tasks/${id}`)
-    for (var i = 0, max = tasks.length; i < max; i++) {
-      // Do something with the element here
-      if (i === id) {
-        return tasks[i]
-      }
-    }
-    return 'Error!'
-  }
+  // const fetchTask = (id) => {
+  //   console.log('tasks', tasks)
+  //   // const res = await fetch(`http://localhost:5000/api/tasks/${id}`)
+  //   for (var i = 0, max = tasks.length; i < max; i++) {
+  //     // Do something with the element here
+  //     if (tasks[i].id === id) {
+  //       console.log('task i', tasks[i])
+  //       return tasks[i]
+  //     }
+  //   }
+
+  // tasks.forEach((task) => {
+  //   if (task.id === id) {
+  //     // console.log('this means it found the task:', task)  //outputs: {id: 1, text: "study", reminder: true, day: "tomorrow"}
+  //     return task
+  //   }
+  // })
+  // return 'Error!' //somehow it found the task but returns "Error!"
 
   // Toggle Reminder(put)
   const toggleReminder = (id) => {
-    const taskToToggle = fetchTask(id)
-    const updTask = { ...taskToToggle, reminder: !taskToToggle.reminder }
+    // console.log('toggle-reminder called', id)
+    // console.log('tasks:', tasks)
+    var taskToToggle //returns 'Error!'
 
-    const res = fetch(`http://localhost:5000/api/tasks${id}`, {
+    for (var i = 0, max = tasks.length; i < max; i++) {
+      // Do something with the element here
+      if (tasks[i].id === id) {
+        console.log('task i', tasks[i])
+        taskToToggle = tasks[i]
+        break
+      }
+    }
+    // console.log('this is the task to toggle:', taskToToggle)
+    const updTask = { ...taskToToggle, reminder: !taskToToggle.reminder }
+    console.log('updTask', updTask)
+
+    const res = fetch(`http://localhost:5000/api/tasks/${id}`, {
       method: 'PUT',
       headers: {
         'Content-type': 'application/json',
       },
       body: JSON.stringify(updTask),
     })
+      // .then('before', (res) => console.log(res))
       .then((res) => res.json())
+      .then((res) => console.log(res))
       .then((res) => setTasks(res))
       .catch((err) => console.log(err))
 
-    console.log(res)
-    const data = res.json()
+    // console.log(res)
+    // const data = res.json()
 
-    setTasks(
-      tasks.map((task) =>
-        task.id === id ? { ...task, reminder: data.reminder } : task
-      )
-    )
+    // setTasks(
+    //   tasks.map((task) =>
+    //     task.id === id ? { ...task, reminder: data.reminder } : task
+    //   )
+    // )
   }
 
   return (

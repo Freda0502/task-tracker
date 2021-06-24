@@ -5,7 +5,7 @@ app.use(express.json())
 var cors = require('cors')
 
 // use it before all route definitions
-app.use(cors({ origin: 'http://localhost:3000' }))
+app.use(cors({ origin: 'http://localhost:3002' }))
 
 const tasks = [
   { id: 1, text: 'study', reminder: true, day: 'tomorrow' },
@@ -44,6 +44,7 @@ app.post('/api/tasks', (req, res) => {
 app.put('/api/tasks/:id', (req, res) => {
   //look up the task
   const task = tasks.find((c) => c.id === parseInt(req.params.id))
+  console.log('task:', task)
   //return 404 if doesn't exist
   if (!task)
     return res.status(404).send('the task with the given id was not found.')
