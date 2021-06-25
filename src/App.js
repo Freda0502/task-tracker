@@ -66,31 +66,12 @@ const App = () => {
         'Content-Type': 'application/json',
       },
     })
+      .then((res) => console.log('this is res before json hahahahahaha', res))
       .then((res) => res.json())
       .then((res) => setTasks(res))
       // .then((res) => console.log(res))
       .catch((err) => console.log(err))
   }
-
-  // Fetch Task
-  // const fetchTask = (id) => {
-  //   console.log('tasks', tasks)
-  //   // const res = await fetch(`http://localhost:5000/api/tasks/${id}`)
-  //   for (var i = 0, max = tasks.length; i < max; i++) {
-  //     // Do something with the element here
-  //     if (tasks[i].id === id) {
-  //       console.log('task i', tasks[i])
-  //       return tasks[i]
-  //     }
-  //   }
-
-  // tasks.forEach((task) => {
-  //   if (task.id === id) {
-  //     // console.log('this means it found the task:', task)  //outputs: {id: 1, text: "study", reminder: true, day: "tomorrow"}
-  //     return task
-  //   }
-  // })
-  // return 'Error!' //somehow it found the task but returns "Error!"
 
   // Toggle Reminder(put)
   const toggleReminder = (id) => {
@@ -98,19 +79,23 @@ const App = () => {
     // console.log('tasks:', tasks)
     var taskToToggle //returns 'Error!'
 
-    for (var i = 0, max = tasks.length; i < max; i++) {
-      // Do something with the element here
+    var result = []
+    for (var i in tasks) result.push([i, tasks[i]])
+    console.log('result', result)
+
+    for (let i = 0, max = result.length; i < max; i++) {
       if (tasks[i].id === id) {
         console.log('task i', tasks[i])
         taskToToggle = tasks[i]
-        break
       }
     }
+    console.log('task to toggle', taskToToggle)
+
     // console.log('this is the task to toggle:', taskToToggle)
     const updTask = { ...taskToToggle, reminder: !taskToToggle.reminder }
     console.log('updTask', updTask)
 
-    const res = fetch(`http://localhost:5000/api/tasks/${id}`, {
+    fetch(`http://localhost:5000/api/tasks/${id}`, {
       method: 'PUT',
       headers: {
         'Content-type': 'application/json',
@@ -118,20 +103,13 @@ const App = () => {
       body: JSON.stringify(updTask),
     })
       // .then('before', (res) => console.log(res))
+      .then((res) => console.log('this is res before json', res))
       .then((res) => res.json())
-      .then((res) => console.log(res))
+      // .then((res) => console.log('this is res after json!!!!', res)) //this is not logged for some reason
       .then((res) => setTasks(res))
       .catch((err) => console.log(err))
-
-    // console.log(res)
-    // const data = res.json()
-
-    // setTasks(
-    //   tasks.map((task) =>
-    //     task.id === id ? { ...task, reminder: data.reminder } : task
-    //   )
-    // )
   }
+  console.log(tasks)
 
   return (
     <Router>
@@ -141,6 +119,7 @@ const App = () => {
           onAdd={() => setShowAddTask(!showAddTask)}
         />
         {showAddTask && <AddTask onAdd={addTask} />}
+
         {tasks.length > 0 ? (
           <Tasks
             tasks={tasks}
