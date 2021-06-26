@@ -63,7 +63,7 @@ app.put('/api/tasks/:id', (req, res) => {
 
   //return
   console.log(res)
-  res.send(task)
+  res.send(tasks)
 })
 
 app.delete('/api/tasks/:id', (req, res) => {

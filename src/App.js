@@ -66,7 +66,7 @@ const App = () => {
         'Content-Type': 'application/json',
       },
     })
-      .then((res) => console.log('this is res before json hahahahahaha', res))
+      // .then((res) => console.log('this is res before json hahahahahaha', res))
       .then((res) => res.json())
       .then((res) => setTasks(res))
       // .then((res) => console.log(res))
@@ -89,11 +89,11 @@ const App = () => {
         taskToToggle = tasks[i]
       }
     }
-    console.log('task to toggle', taskToToggle)
+    // console.log('task to toggle', taskToToggle)
 
     // console.log('this is the task to toggle:', taskToToggle)
     const updTask = { ...taskToToggle, reminder: !taskToToggle.reminder }
-    console.log('updTask', updTask)
+    // console.log('updTask', updTask)
 
     fetch(`http://localhost:5000/api/tasks/${id}`, {
       method: 'PUT',
@@ -103,13 +103,13 @@ const App = () => {
       body: JSON.stringify(updTask),
     })
       // .then('before', (res) => console.log(res))
-      .then((res) => console.log('this is res before json', res))
+      // .then((res) => console.log('this is res before json', res))
       .then((res) => res.json())
       // .then((res) => console.log('this is res after json!!!!', res)) //this is not logged for some reason
       .then((res) => setTasks(res))
       .catch((err) => console.log(err))
   }
-  console.log(tasks)
+  // console.log(tasks)
 
   return (
     <Router>
